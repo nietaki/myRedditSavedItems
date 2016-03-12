@@ -7,6 +7,7 @@ GET        /assets/*file             controllers.Assets.versioned(path="/public"
 
 #utils
 GET        /util/createTables        @io.github.nietaki.controllers.UtilsController.createTables()
+GET        /util/dropTables          @io.github.nietaki.controllers.UtilsController.dropTables()
 
 
 # ads
