@@ -35,7 +35,7 @@ class AuthController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends 
   val cookieDuration = 55 * 60
   
   def frontPage() = mvc.Action { implicit request => //needed for i18n messages
-    Ok(views.html.frontPage(redirectUri))
+    Ok(views.html.frontPage(redirectUri, redditClientId))
   }
 
   def redditRedirect(state: String, code: String) = mvc.Action.async {
