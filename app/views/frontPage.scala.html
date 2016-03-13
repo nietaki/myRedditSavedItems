@@ -4,7 +4,8 @@
 
 @main("reddit saved items") {
     hi there
-    
+    <br />
+    @redirectUri
     <h3>Reddit auth</h3> 
 
     <a href="https://www.reddit.com/api/v1/authorize?client_id=FZpyk25KQW7MgA&response_type=code&state=random_string&redirect_uri=@{helper.urlEncode(redirectUri)}&duration=temporary&scope=history+identity">authorize with reddit</a>
