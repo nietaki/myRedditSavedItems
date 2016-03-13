@@ -34,7 +34,5 @@ class UtilsController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends
     futureResult.map(_ => Ok("schemas dropped"))
   }
 
-  def frontPage() = mvc.Action { implicit request => //needed for i18n messages
-    Ok(views.html.frontPage())
-  }
+  
 }

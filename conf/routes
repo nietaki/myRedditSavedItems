@@ -11,5 +11,5 @@ GET        /util/dropTables          @io.github.nietaki.controllers.UtilsControl
 
 
 # 
-GET        /                         @io.github.nietaki.controllers.UtilsController.frontPage()
+GET        /                         @io.github.nietaki.controllers.AuthController.frontPage()
 GET        /auth/reddit_redirect     @io.github.nietaki.controllers.AuthController.redditRedirect(state: String, code: String)
