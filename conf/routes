@@ -10,5 +10,6 @@ GET        /util/createTables        @io.github.nietaki.controllers.UtilsControl
 GET        /util/dropTables          @io.github.nietaki.controllers.UtilsController.dropTables()
 
 
-# ads
-GET        /                            @io.github.nietaki.controllers.UtilsController.frontPage()
+# 
+GET        /                         @io.github.nietaki.controllers.UtilsController.frontPage()
+GET        /auth/reddit_redirect     @io.github.nietaki.controllers.AuthController.redditRedirect(state: String, code: String)
