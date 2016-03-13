@@ -5,6 +5,7 @@ import javax.inject.Inject
 import io.github.nietaki.modules.DatabaseConfigWrapper
 import play.api.{Logger, mvc}
 import play.api.libs.ws._
+import play.api.libs.json._
 import play.api.Play.current
 
 import scala.concurrent.Future
@@ -30,7 +31,10 @@ class AuthController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends 
   def redditRedirect(state: String, code: String) = mvc.Action.async {
     for {
       response <- getAccessToken(code, clientId, secret, redirectUri)
-    } yield Ok(response.body)
+      json = Json.parse(response.body)
+      token = (json \ "access_token").as[String]
+      userInfo <- getUserInfo(token)
+    } yield Ok(userInfo.body)
   }
   
   def getAccessToken(code: String, clientId: String, clientSecret: String, redirectUri: String): Future[WSResponse] = {
@@ -38,7 +42,15 @@ class AuthController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends 
       .withAuth(clientId, clientSecret, WSAuthScheme.BASIC)
       .withHeaders("Content-Type" -> "application/x-www-form-urlencoded")
     req.post(Map("grant_type" -> Seq("authorization_code"), "code" -> Seq(code), "redirect_uri" -> Seq(redirectUri)))
-    //req.post(s"grant_type=authorization_code&code=$code&redirectUri=$redirectUri")
-    //req.post(s"grant_type=authorization_code")
+  }
+  
+  def getUserInfo(token: String) = {
+    WS.url("https://oauth.reddit.com/api/v1/me")
+      .withHeaders(authorizationHeader(token))
+      .get()
+  }
+  
+  def authorizationHeader(token: String): (String, String) = {
+    ("Authorization", "bearer " ++ token)
   }
 }
