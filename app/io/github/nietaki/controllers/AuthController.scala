@@ -3,6 +3,7 @@ package io.github.nietaki.controllers
 import javax.inject.Inject
 
 import io.github.nietaki.modules.DatabaseConfigWrapper
+import play.api.mvc.Cookie
 import play.api.{Logger, mvc}
 import play.api.libs.ws._
 import play.api.libs.json._
@@ -26,7 +27,10 @@ class AuthController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends 
   val db = dbConfigWrapper.dbConfig.db
   val clientId = "FZpyk25KQW7MgA"
   val secret = "w_hyUCUv61YKaN0Ndpptdu_APoY" // just temporarily for the dev version of the app
-  val redirectUri = "http://localhost:9000/auth/reddit_redirect" //same here
+  val redirectUri = "http://127.0.0.1:9000/auth/reddit_redirect" //same here
+  
+  val cookieDuration = 55 * 60
+  
 
   def redditRedirect(state: String, code: String) = mvc.Action.async {
     for {
@@ -35,6 +39,7 @@ class AuthController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends 
       token = (json \ "access_token").as[String]
       userInfo <- getUserInfo(token)
     } yield Ok(userInfo.body)
+      .withCookies(Cookie("reddit_access_token", token, secure = false, httpOnly = false, maxAge = Option(cookieDuration)))
   }
   
   def getAccessToken(code: String, clientId: String, clientSecret: String, redirectUri: String): Future[WSResponse] = {
