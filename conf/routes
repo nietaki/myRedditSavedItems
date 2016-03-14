@@ -3,14 +3,15 @@
 # ~~~~
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file             controllers.Assets.versioned(path="/public", file: Asset)
+GET        /assets/*file                controllers.Assets.versioned(path="/public", file: Asset)
 
 #utils
-GET        /util/createTables        @io.github.nietaki.controllers.UtilsController.createTables()
-GET        /util/dropTables          @io.github.nietaki.controllers.UtilsController.dropTables()
+GET        /util/createTables           @io.github.nietaki.controllers.UtilsController.createTables()
+GET        /util/dropTables             @io.github.nietaki.controllers.UtilsController.dropTables()
 
 
 # 
-GET        /                         @io.github.nietaki.controllers.AuthController.frontPage()
-GET        /auth/reddit              @io.github.nietaki.controllers.AuthController.redirectToRedditAuth()
-GET        /auth/reddit_redirect     @io.github.nietaki.controllers.AuthController.redditRedirect(state: String, code: String)
+GET        /                            @io.github.nietaki.controllers.AuthController.frontPage()
+GET        /auth/reddit                 @io.github.nietaki.controllers.AuthController.redirectToRedditAuth()
+GET        /auth/reddit_redirect        @io.github.nietaki.controllers.AuthController.redditRedirect(state: String, code: String)
+GET        /mySavedItems                @io.github.nietaki.controllers.SavedItemsController.getSavedItems()
