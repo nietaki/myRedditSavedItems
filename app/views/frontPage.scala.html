@@ -8,7 +8,7 @@
     @redirectUri
     <h3>Reddit auth</h3> 
 
-    <a href="https://www.reddit.com/api/v1/authorize?client_id=@clientId&response_type=code&state=random_string&redirect_uri=@{helper.urlEncode(redirectUri)}&duration=temporary&scope=history+identity">authorize with reddit</a>
+    <a href="@{io.github.nietaki.controllers.routes.AuthController.redirectToRedditAuth()}">go to reddit auth using controller redirect</a> 
     <h3>Utils</h3>
     <a href="/util/createTables">create tables</a> <br />
     <a href="/util/dropTables">drop tables</a> <br />

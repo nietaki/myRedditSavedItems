@@ -22,4 +22,12 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext // neeeded fo
 
 class SavedItemsController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends mvc.Controller {
   val db = dbConfigWrapper.dbConfig.db
+  
+  def getSavedItems() = mvc.Action { implicit request => 
+    val token = request.cookies.get(CW.redditAccessTokenCookieName)
+    token match {
+      case None => Redirect(io.github.nietaki.controllers.routes.AuthController.redirectToRedditAuth())
+    }
+    Ok("getSavedItems")
+  }
 }

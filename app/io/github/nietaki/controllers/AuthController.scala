@@ -32,7 +32,13 @@ class AuthController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends 
   def frontPage() = mvc.Action { implicit request => //needed for i18n messages
     Ok(views.html.frontPage(CW.redirectUri, CW.redditClientId))
   }
-
+  
+  def redirectToRedditAuth = mvc.Action { 
+    val urlEncodedRedirectUrl = views.html.helper.urlEncode(CW.redirectUri)
+    val url =  s"https://www.reddit.com/api/v1/authorize?client_id=${CW.redditClientId}&response_type=code&state=random_string&redirect_uri=$urlEncodedRedirectUrl&duration=temporary&scope=history+identity"
+    Redirect(url)
+  }
+  
   def redditRedirect(state: String, code: String) = mvc.Action.async {
     for {
       response <- getAccessToken(code, CW.redditClientId, CW.redditSecret, CW.redirectUri)
@@ -40,7 +46,7 @@ class AuthController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends 
       token = (json \ "access_token").as[String]
       userInfo <- RedditUtils.getUserInfo(token)
     } yield Ok(userInfo.body)
-      .withCookies(Cookie("reddit_access_token", token, secure = CW.secureCookies, httpOnly = false, maxAge = Option(cookieDuration)))
+      .withCookies(Cookie(CW.redditAccessTokenCookieName, token, secure = CW.secureCookies, httpOnly = false, maxAge = Option(cookieDuration)))
   }
   
   def getAccessToken(code: String, clientId: String, clientSecret: String, redirectUri: String): Future[WSResponse] = {
