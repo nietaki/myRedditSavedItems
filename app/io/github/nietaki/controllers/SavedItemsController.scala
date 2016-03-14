@@ -30,8 +30,10 @@ class SavedItemsController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) ex
   val authenticatedAction = new AuthenticatedAction();
   
   def getSavedItems() = authenticatedAction.async {request => 
-    val futureUser = getOrCreateUserInDb(request.username) 
-    futureUser.map(user => Ok(s"saved items of ${request.username}, $user"))
+    for {
+      user <- getOrCreateUserInDb(request.username)
+      savedItemsString <- getSavedItemsNaive(request.username, request.token)
+    } yield Ok(s"saved items of ${request.username}, $user \\n<br /> $savedItemsString")
   }
   
   def getOrCreateUserInDb(username: String): Future[RedditUser] = {
@@ -47,5 +49,11 @@ class SavedItemsController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) ex
         db.run(userIdQuery).map(id => userWithoutId.copy(id = Some(id)))
       }
     }
+  }
+  
+  def getSavedItemsNaive(username: String, token: String): Future[String] = {
+    WS.url(s"https://oauth.reddit.com/user/$username/saved")
+      .withHeaders(RedditUtils.authorizationHeader(token))
+      .get().map(response => response.body)
   }
 }
