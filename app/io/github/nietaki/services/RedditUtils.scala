@@ -24,4 +24,8 @@ object RedditUtils {
       name = (json \ "name").asOpt[String]
     } yield name 
   }
+  
+  def getSha1Hash(cleartext: String): String = {
+    play.api.libs.Codecs.sha1(cleartext)     
+  }
 }

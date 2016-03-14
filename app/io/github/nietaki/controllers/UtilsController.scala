@@ -22,7 +22,7 @@ import io.github.nietaki.schemas._
 class UtilsController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends mvc.Controller {
 
   val db = dbConfigWrapper.dbConfig.db
-  def allSchemas = Samples.tableQuery.schema
+  def allSchemas = Samples.tableQuery.schema ++ RedditUsers.tableQuery.schema
 
   def createTables() = mvc.Action.async {
     val futureResult = db.run(allSchemas.create)
@@ -33,6 +33,4 @@ class UtilsController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends
     val futureResult = db.run(allSchemas.drop)
     futureResult.map(_ => Ok("schemas dropped"))
   }
-
-  
 }
