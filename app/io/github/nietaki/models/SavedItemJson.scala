@@ -28,7 +28,7 @@ case class SavedItemJson(
     val commentPermalinkOption = linkIdWithoutPrefix.map(x => s"https://reddit.com/r/$subreddit/comments/$x/some_slug/$nameWithoutPrefix")
     permalink.orElse(commentPermalinkOption).get
   }
-  val anyBody =     body.orElse(selftext)
+  val anyBody =     body.orElse(selftext).filter(s => !s.isEmpty)
   val sanitizedThumbnail = thumbnail.filter(_.startsWith("http"))
  
   def resultingSaveItem: SavedItem = {

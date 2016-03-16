@@ -67,9 +67,9 @@ object SavedItemConverters {
         simpleWrite[String]("title") and
         simpleWrite[String]("permalink") and
         simpleWrite[String]("url") and
-        simpleWriteNullable[String]("body") and
+        simpleWrite[Option[String]]("body") and
         simpleWrite[Long]("createdUtc") and
-        simpleWriteNullable[String]("thumbnail") and
+        simpleWrite[Option[String]]("thumbnail") and
         simpleWrite[Boolean]("nsfw")
   )(unlift(SavedItem.unapply))
   
