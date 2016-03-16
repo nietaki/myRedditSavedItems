@@ -52,21 +52,61 @@ window.RedditCommunicator = function() {
         };
     };
 
+    var displayResults = function() {
+        console.log(RedditCommunicator.savedItems);
+        var $content = $("#contentOutput");
+        $content.empty();
+        $.each(RedditCommunicator.savedItems, function(idx, obj) {
+            $content.append("" + idx +". <a href=\"" + obj.permalink + "\">" + obj.title + "</a><br />");
+        });
+    } 
+    
     var onSuccess = function(data, textStatus, request) {
         console.log("success");
+        var after = data.data.after;
         console.log(data);
         smallData = $.map(data.data.children, transformData);
-        console.log(smallData);
+        $.merge(RedditCommunicator.savedItems, smallData)
+        
+        if(smallData.length == 100) {
+            retrieveSavedItems(after)
+        } else {
+            console.log("got back too few items, displaying")
+            displayResults();
+        }
     };
-
-
-    $(function() {
+    
+    var onError = function(data, textStatus, request) {
+        console.log(textStatus)
+        console.log(data)
+        console.log("got an error, display the results")
+        displayResults();
+    }
+    
+    
+    var retrieveSavedItems = function(after) {
         console.log("sending ajax");
         var token = ($.cookie("reddit_access_token"));
+        var url = "https://oauth.reddit.com/user/nietaki/saved?limit=100";
+        
+        if(after) {
+            url = url + "&after=" + after;
+        }
+        
         $.ajax({
-            url: "https://oauth.reddit.com/user/nietaki/saved",
+            url: url,
+            headers: {"Authorization" : "bearer " + token},
             success: onSuccess,
-            headers: {"Authorization" : "bearer " + token}
+            error: onError
         });
+    }
+
+    $(function() {
+        RedditCommunicator.savedItems = [];
+        retrieveSavedItems(null);
     });
+    
+    return {
+        savedItems: [] 
+    }
 }();
