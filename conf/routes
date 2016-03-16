@@ -15,3 +15,4 @@ GET        /                            @io.github.nietaki.controllers.AuthContr
 GET        /auth/reddit                 @io.github.nietaki.controllers.AuthController.redirectToRedditAuth()
 GET        /auth/reddit_redirect        @io.github.nietaki.controllers.AuthController.redditRedirect(state: String, code: String)
 GET        /mySavedItems                @io.github.nietaki.controllers.SavedItemsController.getSavedItems()
+GET        /jsSavedItems                @io.github.nietaki.controllers.SavedItemsController.savedItems()

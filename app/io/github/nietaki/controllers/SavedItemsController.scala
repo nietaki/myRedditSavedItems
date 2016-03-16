@@ -65,4 +65,8 @@ class SavedItemsController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) ex
       .withHeaders(RedditUtils.authorizationHeader(token))
       .get().map(response => response.body)
   }
+  
+  def savedItems() = authenticatedAction {
+    Ok(views.html.savedItems())
+  }
 }

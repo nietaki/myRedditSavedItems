@@ -1,0 +1,10 @@
+@import io.github.nietaki._
+
+@()(implicit messages: Messages)
+
+@scripts = {
+    <script src="@routes.Assets.versioned("javascripts/RedditCommunicator.js")" type="text/javascript"></script>
+}
+
+@main("reddit saved items", scripts) {
+}
