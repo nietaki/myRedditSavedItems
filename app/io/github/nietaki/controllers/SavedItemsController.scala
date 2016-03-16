@@ -2,6 +2,7 @@ package io.github.nietaki.controllers
 
 import javax.inject.Inject
 
+import io.github.nietaki.models.SavedItemJson
 import io.github.nietaki.modules.DatabaseConfigWrapper
 import io.github.nietaki.schemas.{RedditUsers, RedditUser}
 import io.github.nietaki.services.{ConfigWrapper => CW, RedditUtils}
@@ -24,6 +25,9 @@ import slick.driver.PostgresDriver.api._
 
 // schemas
 
+// implicit conversions
+import io.github.nietaki.models.SavedItemConverters._
+
 class SavedItemsController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends mvc.Controller {
   val db = dbConfigWrapper.dbConfig.db
   
@@ -33,7 +37,12 @@ class SavedItemsController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) ex
     for {
       user <- getOrCreateUserInDb(request.username)
       savedItemsString <- getSavedItemsNaive(request.username, request.token)
-    } yield Ok(s"saved items of ${request.username}, $user \\n<br /> $savedItemsString")
+      children = Json.parse(savedItemsString) \ "data" \ "children"
+      stronglyTypedSavedItems = children.as[Seq[SavedItemJson]]
+      savedItemsTransformed = stronglyTypedSavedItems.map(_.resultingSaveItem)
+      resultJson = Json.toJson(savedItemsTransformed)
+    //} yield Ok(s"saved items of ${request.username}, $user \\n<br /> $savedItemsString")
+    } yield Ok(Json.stringify(resultJson))
   }
   
   def getOrCreateUserInDb(username: String): Future[RedditUser] = {
