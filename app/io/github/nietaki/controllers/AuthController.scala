@@ -45,7 +45,7 @@ class AuthController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends 
       json = Json.parse(response.body)
       token = (json \ "access_token").as[String]
       userInfo <- RedditUtils.getUserInfo(token)
-    } yield Ok(userInfo.body)
+    } yield Redirect(io.github.nietaki.controllers.routes.AuthController.frontPage())
       .withCookies(Cookie(CW.redditAccessTokenCookieName, token, secure = CW.secureCookies, httpOnly = false, maxAge = Option(cookieDuration)))
   }
   
