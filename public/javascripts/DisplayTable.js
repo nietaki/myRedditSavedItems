@@ -3,8 +3,19 @@ window.DisplayTable = function() {
     app.controller("displayTableCtrl", function($scope, NgTableParams) {
         var self = this;
         var data = [{name: "Moroni", age: 50} /*,*/];
-        self.tableParams = new NgTableParams({}, { dataset: data});     
+        self.tableParams = new NgTableParams({}, { 
+            //dataset: data,
+            getData: function($defer, params) {
+                RedditCommunicator.retrieveSavedItemsWithCallback(function(d) {
+                    $defer.resolve(data);
+                });
+            }
+        });     
     });
+    
+    $(function() {
+        //RedditCommunicator.retrieveSavedItemsWithCallback(null);
+    }); 
     
     return {app: app};
 }();

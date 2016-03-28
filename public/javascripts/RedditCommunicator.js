@@ -1,8 +1,13 @@
 window.RedditCommunicator = function() {
     console.log("RedditCommunicator loaded");
+    
+    var dataCallback = function(data) {
+        console.log("dataCallback called with");
+        console.log(data);
+    };
   
     var removePrefix = function(thingName) {
-        var i = thingName.indexOf('_')     
+        var i = thingName.indexOf('_');
         return thingName.substr(i+1)
     };
     
@@ -59,6 +64,8 @@ window.RedditCommunicator = function() {
         $.each(RedditCommunicator.savedItems, function(idx, obj) {
             $content.append("" + idx +". <a href=\"" + obj.permalink + "\">" + obj.title + "</a><br />");
         });
+        
+        dataCallback(RedditCommunicator.savedItems);
     } 
     
     var onSuccess = function(data, textStatus, request) {
@@ -72,17 +79,17 @@ window.RedditCommunicator = function() {
             return displayResults(); //TODO temporary: delete
             retrieveSavedItems(after)
         } else {
-            console.log("got back too few items, displaying")
+            console.log("got back too few items, displaying");
             displayResults();
         }
     };
     
     var onError = function(data, textStatus, request) {
-        console.log(textStatus)
-        console.log(data)
-        console.log("got an error, display the results")
+        console.log(textStatus);
+        console.log(data);
+        console.log("got an error, display the results");
         displayResults();
-    }
+    };
     
     
     var retrieveSavedItems = function(after) {
@@ -100,14 +107,19 @@ window.RedditCommunicator = function() {
             success: onSuccess,
             error: onError
         });
-    }
+    };
 
-    $(function() {
+    var retrieveSavedItemsWithCallback = function(callback) {
+        if(callback) {
+            dataCallback = callback;
+        }
+        
         RedditCommunicator.savedItems = [];
         retrieveSavedItems(null);
-    });
+    };
     
     return {
-        savedItems: [] 
+        savedItems: [],
+        retrieveSavedItemsWithCallback: retrieveSavedItemsWithCallback
     }
 }();
