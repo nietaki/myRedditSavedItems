@@ -3,20 +3,11 @@
 @(redirectUri: String, clientId: String)(implicit messages: Messages)
 
 @main("reddit saved items") {
-    hi there
-    <br />
-    <h3>Reddit auth</h3> 
-
-    <a href="@{io.github.nietaki.controllers.routes.AuthController.redirectToRedditAuth()}">go to reddit auth using controller redirect</a>
-    <br />
+    <div class="jumbotron">
+        <h1>View your Reddit Saved Items</h1>
+        <p>Reddit has a lot of content, but you can't nicely search through your saved stuff. This is a page that's meant to fix it.</p>
+        <p><a class="btn btn-primary btn-lg" href="@{io.github.nietaki.controllers.routes.SavedItemsController.savedItems()}">Let's do this!</a></p>
+    </div> 
     
-    <!--<a href="@{io.github.nietaki.controllers.routes.SavedItemsController.getSavedItems()}">my reddit saved items</a>
-    <br />-->
-    <a href="@{io.github.nietaki.controllers.routes.SavedItemsController.savedItems()}">my reddit saved items - js version</a>
-    <br />
-    <!--
-    <h3>Utils</h3>
-    <a href="/util/createTables">create tables</a> <br />
-    <a href="/util/dropTables">drop tables</a> <br />
-    -->
+    <h2>What's the deal?</h2>
 }
