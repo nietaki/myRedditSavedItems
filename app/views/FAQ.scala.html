@@ -9,6 +9,31 @@
     <h1>FAQ</h1>
     <h2>Is this safe?</h2>
     <p>Reasonably so. Everything is done via <a href="https://en.wikipedia.org/wiki/HTTPS">https</a>, you authenticate via <a href="https://en.wikipedia.org/wiki/OAuth">Reddit OAuth</a>, so that this website doesn't even see your password, the authorization runs out after an hour and we don't store anything in any database. As long as you log out when you're done, you should be good :)</p>
+    
+    <h2>Why the .herokuapp.com domain?</h2>
+    <p>This way I can host it safely over https and for free, which is probably reasonable if no-one apart from me is going to
+    be using it. If it bothers anyone, we might change it in the future
+    </p>
+    
+    <h2>
+        Where is my older saved stuff?!
+    </h2>
+    <p>
+        The reddit API only gives us about 1000 last items - we can't get any more. I don't think it's possible to find it on the reddit 
+        website either.
+    </p>
+    
+    <h2>Why does the loading take so long?</h2>
+    <p>
+        I don't want to store anyone's saved items on the server side, so every time you get to the saved items browser,
+        the items get loaded from Reddit from scratch. It's not possible to easily parallelize the retrieval, since you need some 
+        already retrieved item ids to get the next batch.
+    </p>
+    <p>
+        In short: for simplicity and security and because your browser has to download a lot of stuff from Reddit. We might think about
+        using local storage in the future to make it a little better.
+    </p>
+    
     <h2>This site is ugly</h2>
     <p>That's not really a question, but I see your point. I created this as a tool for myself and it got stuck with "programmer graphics". If you want to work with me on making it nicer, <a href="https://nietaki.github.io/about/">get in touch</a>. </p>
 }
