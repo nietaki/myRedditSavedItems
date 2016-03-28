@@ -1,0 +1,14 @@
+@import io.github.nietaki._
+
+@()(implicit messages: Messages)
+
+@scripts = {
+}
+
+@main("Reddit Saved Items - FAQ", scripts) {
+    <h1>FAQ</h1>
+    <h2>Is this safe?</h2>
+    <p>Reasonably so. Everything is done via <a href="https://en.wikipedia.org/wiki/HTTPS">https</a>, you authenticate via <a href="https://en.wikipedia.org/wiki/OAuth">Reddit OAuth</a>, so that this website doesn't even see your password, the authorization runs out after an hour and we don't store anything in any database. As long as you log out when you're done, you should be good :)</p>
+    <h2>This site is ugly</h2>
+    <p>That's not really a question, but I see your point. I created this as a tool for myself and it got stuck with "programmer graphics". If you want to work with me on making it nicer, <a href="https://nietaki.github.io/about/">get in touch</a>. </p>
+}

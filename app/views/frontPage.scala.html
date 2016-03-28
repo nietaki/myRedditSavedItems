@@ -5,9 +5,22 @@
 @main("reddit saved items") {
     <div class="jumbotron">
         <h1>View your Reddit Saved Items</h1>
-        <p>Reddit has a lot of content, but you can't nicely search through your saved stuff. This is a page that's meant to fix it.</p>
+        <p>This we</p>
         <p><a class="btn btn-primary btn-lg" href="@{io.github.nietaki.controllers.routes.SavedItemsController.savedItems()}">Let's do this!</a></p>
     </div> 
     
     <h2>What's the deal?</h2>
+    <p>
+        Reddit has a wealth of information and a lot of content worth going back to. You might be saving links and comments 
+        to return to later, and they do accumulate over time. If you want to come back to that one particular thing in that 
+        obscure subreddit, that you saw a year ago, you might be stuck going through pages and pages of your saved items on Reddit, 
+        with not much success.
+    </p>
+    
+    <p>
+        This webapp is here to solve this problem in a quick and efficient way. You authorize it (for an hour) using Reddit OAuth, 
+        the browser loads your saved items in the background and after a couple of seconds you can easily browse and search through them 
+    </p>
+    
+    <h3>TODO: video of the thing in action</h3>
 }

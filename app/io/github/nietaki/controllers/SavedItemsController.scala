@@ -69,4 +69,12 @@ class SavedItemsController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) ex
   def savedItems() = authenticatedAction {
     Ok(views.html.savedItems())
   }
+  
+  def faq() = Action {
+    Ok(views.html.FAQ())
+  }
+  
+  def about() = Action {
+    Ok(views.html.about())
+  }
 }

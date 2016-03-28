@@ -5,7 +5,7 @@ import javax.inject.Inject
 import io.github.nietaki.modules.DatabaseConfigWrapper
 import io.github.nietaki.services.RedditUtils
 import io.github.nietaki.services.{ConfigWrapper => CW}
-import play.api.mvc.Cookie
+import play.api.mvc.{DiscardingCookie, Cookie}
 import play.api.{Logger, mvc}
 import play.api.libs.ws._
 import play.api.libs.json._
@@ -45,7 +45,7 @@ class AuthController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends 
       json = Json.parse(response.body)
       token = (json \ "access_token").as[String]
       userInfo <- RedditUtils.getUserInfo(token)
-    } yield Redirect(io.github.nietaki.controllers.routes.AuthController.frontPage())
+    } yield Redirect(io.github.nietaki.controllers.routes.SavedItemsController.savedItems())
       .withCookies(Cookie(CW.redditAccessTokenCookieName, token, secure = CW.secureCookies, httpOnly = false, maxAge = Option(cookieDuration)))
   }
   
@@ -54,5 +54,11 @@ class AuthController @Inject() (dbConfigWrapper: DatabaseConfigWrapper) extends 
       .withAuth(clientId, clientSecret, WSAuthScheme.BASIC)
       .withHeaders("Content-Type" -> "application/x-www-form-urlencoded")
     req.post(Map("grant_type" -> Seq("authorization_code"), "code" -> Seq(code), "redirect_uri" -> Seq(redirectUri)))
+  }
+  
+  def logout() = mvc.Action {
+    Ok(views.html.logout())
+      .discardingCookies(DiscardingCookie("reddit_access_token"))
+      .discardingCookies(DiscardingCookie("reddit_username"))
   }
 }
