@@ -33,6 +33,7 @@ window.DisplayTable = function() {
     
     app.controller("displayTableCtrl", function($scope, NgTableParams) {
         var self = this;
+        $scope.loaded = false;
         var data = [{name: "Moroni", age: 50} /*,*/];
         self.tableParams = new NgTableParams({}, { 
             dataset: [] 
@@ -43,8 +44,10 @@ window.DisplayTable = function() {
             RedditCommunicator.retrieveSavedItemsWithCallback(function(data) {
                 self.tableParams.settings({dataset: data});
                 self.tableParams.reload();
+                $scope.loaded = true;
             });
         }); 
+        
     });
     
     return {app: app};

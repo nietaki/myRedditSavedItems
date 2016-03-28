@@ -1,4 +1,4 @@
-@import io.github.nietaki._
+
 
 @()(implicit messages: Messages)
 
@@ -12,13 +12,14 @@
 }
 
 @main("reddit saved items", scripts) {
-    <h1>Browse through your saved items</h1>
     <div ng-app="savedItems" ng-controller="displayTableCtrl as dt">
+        <h1>Browse through your saved items</h1>
+        <div ng-show="loaded">
 
-        <table ng-table="dt.tableParams" class="table table-striped table-bordered table-hover" show-filter="true">
+            <table ng-table="dt.tableParams" class="table table-striped table-bordered table-hover" show-filter="true">
             <tr ng-repeat="item in $data">
                 <td title="'Thumbnail'">
-                    <img src="{{item.thumbnail | orDefault: '/assets/images/defaultThumbnail.png' }}" class="redditThumbnail"/>
+                    <img ng-src="{{item.thumbnail | orDefault: '/assets/images/defaultThumbnail.png' }}" class="redditThumbnail"/>
                 </td>
                 
                 <td title="'Title'" filter="{ title: 'text'}">
@@ -43,11 +44,12 @@
                     {{item.createdUtc * 1000 | date: 'yyyy-MM-dd'}}
                 </td>            
             </tr>
-        </table>
-
-        <div class="panel panel-info">
+            </table>
+        </div>
+        
+        <div class="panel panel-info" ng-hide="loaded">
             <div class="panel-heading">
-                <h3 class="panel-title">Loading..</h3>
+                <h3 class="panel-title">Loading...</h3>
             </div>
             <div class="panel-body">
                 I assure you, we're loading

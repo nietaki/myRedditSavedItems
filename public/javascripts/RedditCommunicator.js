@@ -58,7 +58,7 @@ window.RedditCommunicator = function() {
     };
 
     var displayResults = function() {
-        console.log(RedditCommunicator.savedItems);
+        //console.log(RedditCommunicator.savedItems);
         /*
         var $content = $("#contentOutput");
         $content.empty();
@@ -73,7 +73,7 @@ window.RedditCommunicator = function() {
     var onSuccess = function(data, textStatus, request) {
         console.log("success");
         var after = data.data.after;
-        console.log(data);
+        //console.log(data);
         smallData = $.map(data.data.children, transformData);
         $.merge(RedditCommunicator.savedItems, smallData)
         
