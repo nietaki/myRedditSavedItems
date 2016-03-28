@@ -4,18 +4,17 @@ window.DisplayTable = function() {
         var self = this;
         var data = [{name: "Moroni", age: 50} /*,*/];
         self.tableParams = new NgTableParams({}, { 
-            //dataset: data,
-            getData: function($defer, params) {
-                RedditCommunicator.retrieveSavedItemsWithCallback(function(d) {
-                    $defer.resolve(data);
-                });
-            }
-        });     
+            dataset: [] 
+        });
+        
+         
+        $(function() {
+            RedditCommunicator.retrieveSavedItemsWithCallback(function(data) {
+                self.tableParams.settings({dataset: data});
+                self.tableParams.reload();
+            });
+        }); 
     });
-    
-    $(function() {
-        //RedditCommunicator.retrieveSavedItemsWithCallback(null);
-    }); 
     
     return {app: app};
 }();

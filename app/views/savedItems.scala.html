@@ -15,11 +15,13 @@
     <div ng-app="savedItems" ng-controller="displayTableCtrl as dt">
 
         <table ng-table="dt.tableParams" class="table" show-filter="true">
-            <tr ng-repeat="user in $data">
-                <td title="'Name'" filter="{ name: 'text'}" sortable="'name'">
-                    {{user.name}}</td>
-                <td title="'Age'" filter="{ age: 'number'}" sortable="'age'">
-                    {{user.age}}</td>
+            <tr ng-repeat="item in $data">
+                <td title="'Title'" filter="{ title: 'text'}" sortable="'title'">
+                    <a href="{{item.permalink}}">{{item.title}}</a>
+                </td>
+                <td title="'Subreddit'" filter="{ subreddit: 'text'}" sortable="'subreddit'">
+                    <a href="https://www.reddit.com/r/{{item.subreddit}}">{{item.subreddit}}</a>
+                </td>
             </tr>
         </table>
 

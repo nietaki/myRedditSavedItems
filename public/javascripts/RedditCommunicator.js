@@ -59,11 +59,13 @@ window.RedditCommunicator = function() {
 
     var displayResults = function() {
         console.log(RedditCommunicator.savedItems);
+        /*
         var $content = $("#contentOutput");
         $content.empty();
         $.each(RedditCommunicator.savedItems, function(idx, obj) {
             $content.append("" + idx +". <a href=\"" + obj.permalink + "\">" + obj.title + "</a><br />");
         });
+        */
         
         dataCallback(RedditCommunicator.savedItems);
     } 
