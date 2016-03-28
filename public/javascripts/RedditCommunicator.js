@@ -69,6 +69,7 @@ window.RedditCommunicator = function() {
         $.merge(RedditCommunicator.savedItems, smallData)
         
         if(smallData.length == 100) {
+            return displayResults(); //TODO temporary: delete
             retrieveSavedItems(after)
         } else {
             console.log("got back too few items, displaying")
